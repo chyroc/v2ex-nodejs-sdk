@@ -1,8 +1,13 @@
 {
   "name": "@chyroc/v2ex-api",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "v2ex",
+    "typescript",
+    "nodejs",
+    "sdk"
+  ],
   "main": "dist/api.umd.js",
   "module": "dist/api.es5.js",
   "typings": "dist/types/api.d.ts",
@@ -12,9 +17,9 @@
   "author": "chyroc <chyroc@qq.com>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/chyroc/v2ex-nodejs-sdk"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "engines": {
     "node": ">=6.0.0"
   },
