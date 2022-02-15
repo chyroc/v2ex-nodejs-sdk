@@ -12,6 +12,8 @@ npm install @chyroc/v2ex-api
 
 #### New Client
 
+> get token from https://www.v2ex.com/settings/tokens
+
 ```node
 import V2EX from "@chyroc/v2ex-api";
 
