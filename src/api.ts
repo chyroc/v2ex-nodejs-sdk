@@ -28,6 +28,24 @@ export default class V2EX {
         'Authorization': `Bearer ${token}`
       }
     })
+    this.axios.interceptors.response.use(
+      response => response,
+      error => {
+        let success = true
+        let message = ''
+        try {
+          success = error.response.data.success as boolean
+          message = error.response.data.message as string
+        } catch (e) {
+          //
+        }
+
+        if (!success && message) {
+          throw new Error(message)
+        }
+        throw error
+      }
+    )
   }
 
   public async getNotifications(page: number = 1): Promise<{
@@ -35,7 +53,12 @@ export default class V2EX {
     total: number
   }> {
     const resp = await this.axios.get(`notifications?p=${page}`)
-    const {result, message} = resp.data as { result: Notification[], message: string }
+    const {
+      result,
+      message
+    } = resp.data as { result: Notification[], message: string }
+
+
     let total = result && result.length || 0
     try {
       total = +message.split('/', 2)[1]
@@ -46,5 +69,9 @@ export default class V2EX {
       notifications: result,
       total,
     }
+  }
+
+  public async deleteNotification(id: number): Promise<void> {
+    await this.axios.delete(`notifications/${id}`)
   }
 }
