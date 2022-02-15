@@ -1,6 +1,6 @@
 # V2EX NodeJS SDK
 
-> SDK for https://www.v2ex.com/help/api
+NodeJS(TypeScript) SDK For V2EX(https://www.v2ex.com)
 
 ## Install
 
