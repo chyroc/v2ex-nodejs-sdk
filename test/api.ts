@@ -9,11 +9,11 @@ describe("V2EX test", () => {
   })
 
   it("V2EX is instantiable", () => {
-    expect(new V2EX('token')).toBeInstanceOf(V2EX)
+    expect(new V2EX({token: 'token'})).toBeInstanceOf(V2EX)
   })
 
   it("getNotifications", async () => {
     const token = process.env.V2EX_TOKEN || ''
-    expect(await new V2EX(token).getNotifications()).toBeInstanceOf(Promise)
+    expect(await new V2EX({token}).getNotifications()).toBeInstanceOf(Promise)
   })
 })

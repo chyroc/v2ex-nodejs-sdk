@@ -3,7 +3,6 @@
 // ...
 import axios, {AxiosInstance} from 'axios';
 
-
 export interface Member {
   id: number;
   username: string;
@@ -56,10 +55,10 @@ export interface Token {
 }
 
 export enum TokenExpiration {
-  D30 = 2592000,
-  D60 = 5184000,
-  D90 = 7776000,
-  D180 = 15552000,
+  d30 = 2592000,
+  d60 = 5184000,
+  d90 = 7776000,
+  d180 = 15552000,
 }
 
 export enum TokenScope {
@@ -108,10 +107,13 @@ export interface TopicReply {
 export default class V2EX {
   axios: AxiosInstance
 
-  constructor(token: string, config: {
-    timeout: number,
+  constructor(config: {
+    token: string
+    timeout?: number,
   }) {
     const timeout = config.timeout || 3000
+    const token = config.token
+
     this.axios = axios.create({
       baseURL: 'https://www.v2ex.com/api/v2/',
       timeout,
@@ -119,6 +121,7 @@ export default class V2EX {
         'Authorization': `Bearer ${token}`
       }
     })
+
     this.axios.interceptors.response.use(
       response => response,
       error => {
@@ -139,10 +142,12 @@ export default class V2EX {
     )
   }
 
-  public async getNotifications(page: number = 1): Promise<{
+  public async getNotifications(req?: { page?: number }): Promise<{
     notifications: Notification[]
     total: number
   }> {
+    const page = req && req.page || 1
+
     const resp = await this.axios.get(`notifications?p=${page}`)
     const {result, message} = resp.data as { result: Notification[], message: string }
     let total = result && result.length || 0
@@ -154,42 +159,63 @@ export default class V2EX {
     return {notifications: result, total,}
   }
 
-  public async deleteNotification(id: number): Promise<void> {
+  public async deleteNotification(req: { notificationID: number }): Promise<void> {
+    const id = req.notificationID
     await this.axios.delete(`notifications/${id}`)
   }
 
-  public async getProfile(): Promise<Profile> {
+  public async getProfile(): Promise<{ profile: Profile }> {
     const resp = await this.axios.get(`member`)
-    return resp.data.result as Profile
+    return {
+      profile: resp.data.result as Profile
+    }
   }
 
-  public async getToken(): Promise<Token> {
+  public async getToken(): Promise<{ token: Token }> {
     const resp = await this.axios.get(`token`)
-    return resp.data.result as Token
+    return {
+      token: resp.data.result as Token
+    }
   }
 
-  public async createToken(req: { scope: TokenScope, expiration: TokenExpiration }): Promise<string> {
+  public async createToken(req: { scope: TokenScope, expiration: TokenExpiration }): Promise<{
+    token: string
+  }> {
     const resp = await this.axios.post(`tokens`, req)
-    return resp.data.result.token as string
+    return resp.data.result as { token: string }
   }
 
-  public async getNode(name: string): Promise<Node> {
+  public async getNode(req: { nodeName: string }): Promise<{ node: Node }> {
+    const name = req.nodeName
     const resp = await this.axios.get(`nodes/${name}`)
-    return resp.data.result as Node
+    return {
+      node: resp.data.result as Node
+    }
   }
 
-  public async getTopicByNode(node: string, page: number = 1): Promise<Topic[]> {
+  public async getTopicByNode(req: { nodeName: string, page?: number }): Promise<{ topics: Topic[] }> {
+    const node = req.nodeName
+    const page = req.page || 1
     const resp = await this.axios.get(`nodes/${node}/topics?p=${page}`)
-    return resp.data.result as Topic[]
+    return {
+      topics: resp.data.result as Topic[]
+    }
   }
 
-  public async getTopic(id: number): Promise<Topic> {
+  public async getTopic(req: { topicID: number }): Promise<{ topic: Topic }> {
+    const id = req.topicID
     const resp = await this.axios.get(`topics/${id}`)
-    return resp.data.result as Topic
+    return {
+      topic: resp.data.result as Topic
+    }
   }
 
-  public async getTopicReply(topic: number, page: number = 1): Promise<TopicReply[]> {
-    const resp = await this.axios.get(`topics/${topic}/replies?p=${page}`)
-    return resp.data.result as TopicReply[]
+  public async getTopicReply(req: { topicID: number, page?: number }): Promise<{ replies: TopicReply[] }> {
+    const topicID = req.topicID
+    const page = req.page || 1
+    const resp = await this.axios.get(`topics/${topicID}/replies?p=${page}`)
+    return {
+      replies: resp.data.result as TopicReply[]
+    }
   }
 }

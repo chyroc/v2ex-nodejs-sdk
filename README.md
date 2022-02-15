@@ -22,8 +22,8 @@ const client = new V2EX(token, {timeout: 10000})
 #### Get Notifications
 
 ```node
-const getNotifications = async (client: V2EX, page: number) => {
-  const {notifications, total} = await client.getNotifications(page)
+const getNotifications = async (client: V2EX) => {
+  const {notifications, total} = await client.getNotifications({page: 1})
   console.log('notifications:', notifications)
   console.log('total:', total)
 }
@@ -32,8 +32,8 @@ const getNotifications = async (client: V2EX, page: number) => {
 #### Delete Notification
 
 ```node
-const deleteNotification = async (client: V2EX, id: number) => {
-  await client.deleteNotification(id)
+const deleteNotification = async (client: V2EX) => {
+  await client.deleteNotification({notificationID: 1})
 }
 ```
 
@@ -71,7 +71,7 @@ const createToken = async (client: V2EX) => {
 
 ```node
 const getNode = async (client: V2EX) => {
-  const node = await client.getNode('python')
+  const node = await client.getNode({nodeName: 'python'})
   console.log('node', node)
 }
 ```
@@ -80,17 +80,16 @@ const getNode = async (client: V2EX) => {
 
 ```node
 const getTopicByNode = async (client: V2EX) => {
-  const topics = await client.getTopicByNode('python',2)
+  const topics = await client.getTopicByNode({nodeName: 'python', page: 2})
   console.log('topics', topics)
 }
-
 ```
 
 #### Get Topic
 
 ```node
 const getTopic = async (client: V2EX) => {
-  const topic = await client.getTopic(1)
+  const topic = await client.getTopic({topicID: 1})
   console.log('topic', topic)
 }
 ```
@@ -99,7 +98,7 @@ const getTopic = async (client: V2EX) => {
 
 ```node
 const getTopicReply = async (client: V2EX) => {
-  const topicReply = await client.getTopicReply(1,2)
+  const topicReply = await client.getTopicReply({topicID: 1, page: 2})
   console.log('topicReply', topicReply)
 }
 ```
