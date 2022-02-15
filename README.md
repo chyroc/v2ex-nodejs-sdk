@@ -5,7 +5,7 @@ NodeJS(TypeScript) SDK For V2EX(https://www.v2ex.com)
 ## Install
 
 ```shell
-npm install @chyroc/v2ex-api
+npm i --save @chyroc/v2ex-api
 ```
 
 ### Usage
@@ -18,7 +18,7 @@ npm install @chyroc/v2ex-api
 import V2EX from "@chyroc/v2ex-api";
 
 const token = process.env.V2EX_TOKEN || ''
-const client = new V2EX(token, {timeout: 10000})
+const client = new V2EX({token, timeout: 10000})
 ```
 
 #### Get Notifications

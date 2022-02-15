@@ -12,3 +12,6 @@ compiled
 docs
 ttt
 src/api.js
+tools/planes.html
+tools/go.mod
+tools/go.sum
