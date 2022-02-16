@@ -105,3 +105,12 @@ const getTopicReply = async (client: V2EX) => {
 }
 ```
 
+#### Get Plane
+
+```node
+const getPlanes = async (client: V2EX) => {
+  const plane = await client.getPlanes()
+  console.log('plane', plane)
+}
+```
+
