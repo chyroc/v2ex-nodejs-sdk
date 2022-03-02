@@ -82,7 +82,7 @@ const getNode = async (client: V2EX) => {
 
 ```node
 const getTopicByNode = async (client: V2EX) => {
-  const topics = await client.getTopicByNode({nodeName: 'python', page: 2})
+  const topics = await client.getTopicsByNode({nodeName: 'python', page: 2})
   console.log('topics', topics)
 }
 ```
