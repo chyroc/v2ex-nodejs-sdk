@@ -100,7 +100,7 @@ const getTopic = async (client: V2EX) => {
 
 ```node
 const getTopicReply = async (client: V2EX) => {
-  const topicReply = await client.getTopicReply({topicID: 1, page: 2})
+  const topicReply = await client.getTopicReplies({topicID: 1, page: 2})
   console.log('topicReply', topicReply)
 }
 ```
